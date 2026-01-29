@@ -1,0 +1,71 @@
+import React from 'react';
+
+function assert(condition: boolean, message: string) { if (!condition) throw new Error(message); }
+
+export const brand = 'LORI';
+export const tagline = 'Where Raw Footage Becomes Cinema';
+assert(brand.length > 0, 'Brand should not be empty');
+assert(tagline.includes('Cinema'), 'Tagline should mention Cinema');
+assert(!!'lorieditpage@gmail.com', 'Email should be present');
+
+export default function App() {
+  const [page, setPage] = React.useState<'home' | 'project'>('home');
+  const [form, setForm] = React.useState({ name: '', email: '', details: '' });
+  const isValid = form.name.trim() !== '' && form.email.trim() !== '' && form.details.trim() !== '';
+  const emailBody = `Name: ${form.name}\nEmail: ${form.email}\n\nDetails:\n${form.details}`;
+
+  return (
+    <div style={{ fontFamily:'Pacifico, cursive', position:'relative', width:'100vw', height:'100vh', color:'#fff', overflow:'hidden', padding:'40px' }}>
+      <img src="https://images.unsplash.com/photo-1515378791036-0648a3ef77b2?auto=format&fit=crop&w=1600&q=80" alt="Editor" style={{position:'absolute', inset:0, width:'100%', height:'100%', objectFit:'cover', zIndex:0}} />
+      <div style={{position:'absolute', inset:0, background:'rgba(0,0,0,0.15)', zIndex:1}} />
+      <div style={{position:'relative', zIndex:2}}>
+        {page === 'home' && (
+          <div>
+            <h1 style={{fontFamily:'Playfair Display', color:'#d4af37', fontSize:'96px', letterSpacing:'6px', textTransform:'uppercase', textShadow:'0 4px 20px rgba(0,0,0,0.9)', }}>𝕃𝕆ℝ𝕀</h1>
+            <p style={{textShadow:'0 2px 6px rgba(0,0,0,0.8)'}}>{tagline}</p>
+            <p style={{textShadow:'0 2px 6px rgba(0,0,0,0.8)'}}>A premium video editing studio crafting cinematic stories for creators worldwide.</p>
+            <div style={{marginTop:'16px', display:'flex', gap:'12px'}}>
+              <button onClick={()=>setPage('project')} style={{boxShadow:'0 8px 30px rgba(0,0,0,0.7)', background:'#d4af37', color:'#000', padding:'14px 28px', borderRadius:'999px', border:'none', fontWeight:700, letterSpacing:'1px', cursor:'pointer'}}>Start Your Project</button>
+              <a href="mailto:lorieditpage@gmail.com" style={{textShadow:'0 2px 8px rgba(0,0,0,0.8)'}}>Email Us</a>
+            </div>
+            <div style={{marginTop:'40px'}}>
+              <div style={{marginBottom:'8px'}}><span style={{fontFamily:'Playfair Display', color:'#d4af37', letterSpacing:'6px', fontWeight:800, borderBottom:'2px solid #d4af37', paddingBottom:'6px'}}>𝕊𝕖𝕣𝕧𝕚𝕔𝕖𝕤</span></div>
+              <ul>
+                <li>YouTube Cinematic Editing</li>
+                <li>High‑Impact Ads & Promo Films</li>
+                <li>High‑Retention Short‑Form Reels</li>
+              </ul>
+            </div>
+            <div style={{marginTop:'20px'}}>
+              <div style={{marginBottom:'8px'}}><span style={{fontFamily:'Playfair Display', color:'#d4af37', letterSpacing:'6px', fontWeight:800, borderBottom:'2px solid #d4af37', paddingBottom:'6px'}}>ℙ𝕣𝕚𝕔𝕚𝕟𝕘</span></div>
+              <ul>
+                <li>Creator Reels Package — 1500 INR</li>
+                <li>YouTube Pro Edit — 5000 INR</li>
+                <li>Brand Ad Cut — 2000 INR</li>
+              </ul>
+            </div>
+            <div style={{marginTop:'20px'}}>
+              <div style={{marginBottom:'8px'}}><span style={{fontFamily:'Playfair Display', color:'#d4af37', letterSpacing:'6px', fontWeight:800, borderBottom:'2px solid #d4af37', paddingBottom:'6px'}}>ℂ𝕠𝕟𝕥𝕒𝕔𝕥</span></div>
+              <p>Instagram: @plsnoonekindme</p>
+              <p>Email: lorieditpage@gmail.com</p>
+            </div>
+          </div>
+        )}
+        {page === 'project' && (
+          <div style={{marginTop:'40px', background:'rgba(0,0,0,0.7)', padding:'24px', borderRadius:'16px'}}>
+            <h2 style={{fontFamily:'Playfair Display', color:'#d4af37', letterSpacing:'3px'}}>Tell us about your vision</h2>
+            <input style={{width:'100%', padding:'12px 16px', borderRadius:'12px', border:'none', marginTop:'16px'}} placeholder="Your name" value={form.name} onChange={e=>setForm({...form, name:e.target.value})} />
+            <input style={{width:'100%', padding:'12px 16px', borderRadius:'12px', border:'none', marginTop:'12px'}} placeholder="Your email" value={form.email} onChange={e=>setForm({...form, email:e.target.value})} />
+            <textarea style={{width:'100%', padding:'14px 16px', borderRadius:'12px', border:'none', marginTop:'12px', minHeight:'120px'}} placeholder="Describe your video, style, platform, and deadline" value={form.details} onChange={e=>setForm({...form, details:e.target.value})} />
+            {!isValid && <p>Please fill all fields</p>}
+            <div style={{display:'flex', gap:'12px', marginTop:'12px'}}>
+              <a href={isValid ? `https://instagram.com/plsnoonekindme?text=${encodeURIComponent('Name: '+form.name+' Email: '+form.email+' Details: '+form.details)}` : '#'} style={{background:'#d4af37', color:'#000', padding:'12px 20px', borderRadius:'999px', textDecoration:'none'}}>Send to Instagram</a>
+              <a href={isValid ? `mailto:lorieditpage@gmail.com?subject=${encodeURIComponent('New Project from '+form.name)}&body=${encodeURIComponent(emailBody)}` : '#'} style={{background:'#d4af37', color:'#000', padding:'12px 20px', borderRadius:'999px', textDecoration:'none'}}>Send via Email</a>
+              <button onClick={()=>setPage('home')}>Back</button>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
